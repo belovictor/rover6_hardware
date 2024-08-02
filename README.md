@@ -21,11 +21,63 @@ ROVER6 is built around a main frame which is created using laser cutting and ben
 
 You will find 3 files for every part of the frame in the frame subfolder - a STEP 3D model, a DXF file for cutting and a PDF file with bending angles specification. There is also an assembly STEP file which contains all parts of the frame assembled.
 
+### Transmission
+
+TODO
+
 ### Enclosure and other 3D printed parts
 
 TODO
 
 ### Electronics
+
+As a complicated electromechanical system ROVER6 operaconsists of  quite a bunch of electronic stuff. Most of the components are off the shelf ones.
+
+#### Power
+
+The power network inside ROVER6 consists of 3 power buses. The main  bus is directly powered from battery, operates near 24V and is used to supply power to motors, some other 24V loads, like lid actuators and DC-DC converters for other power buses. A 12V bus is used to supply power to Jetron Orin Nano, lidars and CAN/RS485 interface. A 5V bus is used to supply power to Jetson Nano, Keenetic router, USB hub, ultrasonic sensors, LED strips and other 5V loads.
+
+ROVER6 power source is a 6S4P Li-Ion battery produced by a local E-Bike shop - [E4BIKE](https://e4bike.ru/page/battery-configurator). This battery operates in 20-25.2 V range and have a built in BMS.
+
+[Mateksys dronecan digital power monitor](https://www.mateksys.com/?portfolio=can-l4-bm) board is used as a battery fuel gauge to monitor battery state and charge/discharge processes. To monitor battery voltage correctly it is powered through a dedicted [Mateksys micro BEC 6-60V to 5V](https://www.mateksys.com/?portfolio=mbec12s) board.
+
+[Meanwell DDR-60L-12](https://www.meanwell.com/productSeries.aspx?i=52&c=7#tag-7-52) is used to provide power to 12V bus.
+
+[Meanwell DDR-30L-5](https://www.meanwell.com/productSeries.aspx?i=52&c=7#tag-7-52) is used to provide power to 5V bus.
+
+TODO: Power network schematics
+
+#### Compute
+
+The main compute power is provided by [NVidia Jetson Orin Nano](https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-orin/) board. This board runs ROS master and most of robot nodes. Perception devices, like lidars and realsense cameras are connected to this board. Additional compute power is provided by old good [NVidia Jetson Nano](https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-nano/product-development/). This board is used to connect supplemental cameras and to run remote control nodes.
+
+#### Communication
+
+There are several communication systems inside ROVER6.
+
+The gigabit ethernet LAN is provided by a switch which is buit in the Keenetic router. It is used to connect compute nodes and CAN/RS485 gateway together and, through an LTE modem built in the router it provides Internet connectivity to the router. A [Keenetic Hero 4G+](https://keenetic.com/en/keenetic-hero-4g-plus) is used as the router/switch in ROVER6.
+
+ROVER6 has 3 industrial buses inside to connect different sensors and devices to ROS - 2 CAN buses and 1 RS485 bus connect to [Waveshare 2 channel CAN and RS485 gateway](https://www.waveshare.com/2-ch-can-to-eth.htm).
+
+The first CAN bus is used to monitor and control [ODdrive boards](https://shop.odriverobotics.com/products/odrive-v36) which operate motor wheels.
+
+The second CAN bus is used for [Dronecan](https://dronecan.github.io) to communicate with battery gauge and ROVER6 lid & lights controller and potentially can be used to connect any other Dronecan compatible devices.
+
+RS485 bus runs modbus protocol to communicate with ultrasonic distance sensors and potentially can be used to connect any other modbus devices.
+
+TODO: communication schematics
+
+#### Perception and sensors
+
+ROVER6 perception perepheral includes 3 different types of sensors.
+
+Lidars - there are 2 [Unitree 4D LiDAR L1](https://www.unitree.com/LiDAR/) lidars on the robot, one on the front and one on the rear side of the robot. Lidars are mounted with 45 degree inclination. As this particular lidars have 360x180 degree field of view at this position they are able to fully cover all objects around the robot and also cover the road in the front and behind of the robot.
+
+Cameras - there are 2 [Intel RealSense D435](https://www.intelrealsense.com/depth-camera-d435/) depth cameras on the robot, on on the front and one on the rear side of the robot. This cameras are used for visual perception as well as main front and rear camers for teleoperation. There are 2 additional [Arducam USB](https://www.arducam.com/usb-board-cameras-uvc-modules-webcams/) cameras on the front left and front right sides of the robot. Those cameras are used to extend field of view for teleoperation. Additional [Arducam USB](https://www.arducam.com/usb-board-cameras-uvc-modules-webcams/) camera with a [wide angle lens](https://www.arducam.com/product-category/lenses/m12-lens-arducam/) is installed inside the robot lid to monitor the load/unload process.
+
+Ultrasonic distance sensors provide additional level of safety - 2 sensors are installed on the front and 2 sensors are installed on the rear sides of the robot. [Waterproof ultrasonic sensors](https://aliexpress.ru/item/1005004771514946.html) with RS485 interface are used.
+
+#### Indication and control
 
 TODO
 
