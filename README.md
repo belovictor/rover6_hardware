@@ -37,6 +37,8 @@ As a complicated electromechanical system ROVER6 operaconsists of  quite a bunch
 
 The power network inside ROVER6 consists of 3 power buses. The main  bus is directly powered from battery, operates near 24V and is used to supply power to motors, some other 24V loads, like lid actuators and DC-DC converters for other power buses. A 12V bus is used to supply power to Jetron Orin Nano, lidars and CAN/RS485 interface. A 5V bus is used to supply power to Jetson Nano, Keenetic router, USB hub, ultrasonic sensors, LED strips and other 5V loads.
 
+![ROVER6 power schema](images/ROVER6_power.png)
+
 ROVER6 power source is a 6S4P Li-Ion battery produced by a local E-Bike shop - [E4BIKE](https://e4bike.ru/page/battery-configurator). This battery operates in 20-25.2 V range and have a built in BMS.
 
 [Mateksys dronecan digital power monitor](https://www.mateksys.com/?portfolio=can-l4-bm) board is used as a battery fuel gauge to monitor battery state and charge/discharge processes. To monitor battery voltage correctly it is powered through a dedicted [Mateksys micro BEC 6-60V to 5V](https://www.mateksys.com/?portfolio=mbec12s) board.
@@ -45,7 +47,7 @@ ROVER6 power source is a 6S4P Li-Ion battery produced by a local E-Bike shop - [
 
 [Meanwell DDR-30L-5](https://www.meanwell.com/productSeries.aspx?i=52&c=7#tag-7-52) is used to provide power to 5V bus.
 
-TODO: Power network schematics
+An XT-60 connector on the rear side of ROVER6 is used for charging.
 
 #### Compute
 
